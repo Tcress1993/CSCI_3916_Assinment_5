@@ -14,7 +14,7 @@ var ReviewSchema = new Schema({
     movieId: { type: mongoose.Schema.Types.ObjectId, ref: "Movie" },
     userName: String,
     review: String,
-    rating: {type: Number, min: 1, max: 5}
+    rating: {type: Number, min: 1, max: 5},
 
 });
 
