@@ -313,7 +313,7 @@ router.route('/movies/:movieId/review')
             const movieId = req.params.movieId; // Get the movie ID from the URL
             const {userName, review, rating} = req.body;
             if (!userName || !review || !rating) {
-                res.status(400).json({success: false, msg: "Please include all required fields."});
+                return res.status(400).json({success: false, msg: "Please include all required fields."});
             }
             const newReview = new Review(movieId, userName, review, rating);
             console.log(newReview);
