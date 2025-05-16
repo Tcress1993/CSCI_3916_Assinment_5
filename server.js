@@ -310,12 +310,12 @@ router.route('/movies/:movieId/review')
     })
     .post(authJwtController.isAuthenticated, async (req, res) => {
         try{
-            const id = req.params.movieId; // Get the movie ID from the URL
+            const movieId = req.params.movieId; // Get the movie ID from the URL
             const {userName, review, rating} = req.body;
             if (!userName || !review || !rating) {
                 res.status(400).json({success: false, msg: "Please include all required fields."});
             }
-            const newReview = new Review(id, req.body);
+            const newReview = new Review(movieId, userName, review, rating);
             console.log(newReview);
             await newReview.save();
             res.status(201).json({success: true, msg: "Review added successfully.", review: newReview});
