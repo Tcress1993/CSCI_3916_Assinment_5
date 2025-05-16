@@ -295,7 +295,7 @@ router.route('/review')
         }
     })
 
-router.route(':movieId/review')
+router.route('/movies/:movieId/review')
     .get(authJwtController.isAuthenticated, async (req, res) => {
         const id = req.params.reviewId; // Get the review ID from the URL
         try{
