@@ -315,7 +315,7 @@ router.route('/movies/:movieId/review')
             if (!userName || !review || !rating) {
                 return res.status(400).json({success: false, msg: "Please include all required fields."});
             }
-            const newReview = new Review(movieId, userName, review, rating);
+            const newReview = new Review({movieId, userName, review, rating});
             console.log(newReview);
             await newReview.save();
             res.status(201).json({success: true, msg: "Review added successfully.", review: newReview});
