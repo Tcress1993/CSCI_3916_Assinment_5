@@ -295,6 +295,36 @@ router.route('/review')
         }
     })
 
+router.route(':movieId/review')
+    .get(authJwtController.isAuthenticated, async (req, res) => {
+        const id = req.params.reviewId; // Get the review ID from the URL
+        try{
+            const review = await Review.findById(id); // Find the review by ID
+            if (!review) {
+                return res.status(404).json({ success: false, msg: 'Review not found.' }); // 404 Not Found
+            }
+            res.status(200).json(review); // Respond with the review
+        }catch(err){
+            res.status(500).json({success: false, msg: "GET request not supported."}); // 500 Internal Server Error
+        }
+    })
+    .post(authJwtController.isAuthenticated, async (req, res) => {
+        try{
+            const id = req.params.reviewId; // Get the review ID from the URL
+            const {userName, review, rating} = req.body;
+            if (!userName || !review || !rating) {
+                res.status(400).json({success: false, msg: "Please include all required fields."});
+            }
+            const newReview = new Review(req.body);
+            console.log(newReview);
+            await newReview.save();
+            res.status(201).json({success: true, msg: "Review added successfully.", review: newReview});
+        }catch(err){
+            res.status(500).json({success: false, msg: "Review not added."});
+        }
+    })
+
+
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
